@@ -34,4 +34,4 @@ app.use("/user",userRoute);
 app.use("/blog",blogRoute);
 
 
-module.export=app;
+module.exports=app;
