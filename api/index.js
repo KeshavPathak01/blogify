@@ -34,4 +34,6 @@ app.use("/user",userRoute);
 app.use("/blog",blogRoute);
 
 
-module.exports=app;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
