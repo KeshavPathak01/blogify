@@ -55,17 +55,28 @@ router.post("/comment/:blogId",async (req,res)=>{
 })
 
 
-router.post("/",upload.single('coverImage'),async (req,res)=>{
-    const {title,body}=req.body;
-    const blog=await Blog.create({
-        title,
-        body,
-        createdBy:req.user._id,
-        coverImage:req.file.path
+router.post("/", upload.single("coverImage"), async (req, res) => {
+  try {
+    if (!req.file) {
+      console.log("File not received");
+      return res.status(400).send("Image is required");
+    }
 
-    })
+    const { title, body } = req.body;
+
+    const blog = await Blog.create({
+      title,
+      body,
+      createdBy: req.user._id,
+      coverImage: req.file.path,   // Cloudinary URL
+    });
+
     return res.redirect(`/blog/${blog._id}`);
-})
+  } catch (err) {
+    console.error("Blog creation error:", err);
+    return res.status(500).send("Internal Server Error");
+  }
+});
 
 
 module.exports = router;
